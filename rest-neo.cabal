@@ -1,0 +1,22 @@
+name:                 rest-neo
+version:              0.1.0.0
+synopsis:             Yet another driver using REST for Neo4j graph database
+-- description:
+-- license:
+-- license-file:
+homepage:             Neo4j driver
+author:               Marcin Tolysz
+maintainer:           tolysz@gmail.com
+category:             
+-- copyright:
+build-type:           Simple
+-- extra-source-files:
+cabal-version:        >=1.10
+
+library
+  -- exposed-modules:
+  -- other-modules:
+  -- other-extensions:
+  build-depends:        base >= 4.7 && < 5
+  hs-source-dirs:       src
+  default-language:     Haskell2010
