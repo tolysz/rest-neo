@@ -4,6 +4,7 @@
   , RankNTypes
   , TupleSections
   , DeriveGeneric
+  , ExistentialQuantification
   #-}
 
 module Database.Neo.Rest where
@@ -45,7 +46,7 @@ instance DA.ToJSON Neo4jConf where
      , "auth" DA..= DA.toJSON (DTE.decodeUtf8 <$> ncAuth)
      ]
 
-type NEO = (DA.ToJSON a, DA.FromJSON b) => Neo -> String -> a -> IO (Maybe b)
+type NEO a b = Neo -> String -> a -> IO (Maybe b)
 
 -- newtype ServerURL = ServerURL String
 -- instance Default ServerURL where
@@ -65,16 +66,16 @@ endNeo :: Neo -> IO ()
 endNeo Neo{..} = closeManager manager
 
 
-postNeo :: NEO
+postNeo :: (DA.ToJSON a, DA.FromJSON b) => NEO a b
 postNeo = methodNeo "POST"
 
-putNeo :: NEO
+putNeo :: (DA.ToJSON a, DA.FromJSON b) => NEO a b
 putNeo = methodNeo "PUT"
 
-getNeo :: NEO
+getNeo :: (DA.ToJSON a, DA.FromJSON b) => NEO a b
 getNeo = methodNeo "GET"
 
-methodNeo :: Method -> NEO
+methodNeo :: (DA.ToJSON a, DA.FromJSON b) => Method -> NEO a b
 methodNeo m Neo{..} ep j = do
    initReq <- parseUrl $ ncHost conf <> ep
    let req = initReq 
