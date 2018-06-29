@@ -1,18 +1,20 @@
-resolver: lts-7.21
+resolver:  nightly-2018-06-28
 
 packages:
  - '.'
  - location:
       git: git@github.com:tolysz/aeson
-      commit: 0521fe40034a81276d481b65a5a5804e18f21eea
+      commit: b28eaf5a811013b34eba289f8cf4a3b8b26e74db
    extra-dep: true
- - location:
-      git: git@github.com:tolysz/http-client-extra
-      commit: b556857719c69bf4e12c81f388d9c9ff4ebad4d4
-   extra-dep: true
+# - location:
+#      git: git@github.com:tolysz/http-client-extra
+#      commit: 0e9ab80975724867cc0391b9eca5e665391908ef
+#   extra-dep: true
 
 extra-deps:
 - possible-0.1.0.5
+- http-client-extra-0.1.3.0
+
 flags: {}
 
 extra-package-dbs: []

@@ -1,5 +1,5 @@
 name:                 rest-neo
-version:              0.1.0.0
+version:              0.1.1.0
 synopsis:             Yet another driver using REST for Neo4j graph database
 -- description:
 -- license:

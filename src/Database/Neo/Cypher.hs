@@ -1,6 +1,7 @@
 {-# Language OverloadedStrings
            , RecordWildCards
            , ExistentialQuantification
+           , CPP
             #-}
 {-# LANGUAGE DeriveGeneric #-}
 
@@ -18,7 +19,12 @@ import Data.Aeson
 import Data.Aeson.Types
 import Data.String
 import Data.Default
-import Data.Monoid
+#if !(MIN_VERSION_base(4,8,0))
+import Data.Monoid (Monoid(..))
+#endif
+#if !(MIN_VERSION_base(4,11,0))
+import Data.Semigroup (Semigroup(..))
+#endif
 import Data.Map.Strict (Map)
 import qualified Data.Map.Strict as Map
 import GHC.Generics
@@ -32,12 +38,15 @@ data Cypher = Cypher
 instance Default Cypher where
   def = Cypher "" def
 
-instance Monoid Cypher where
-  mempty = def
-  Cypher q1 p1 `mappend` Cypher q2 p2 = Cypher {..}
+instance Semigroup Cypher where
+  Cypher q1 p1 <> Cypher q2 p2 = Cypher {..}
            where
              query = if T.null q1 then q2 else q1
              params = dicJoin p1 p2
+
+instance Monoid Cypher where
+  mempty = def
+
 dicJoin = Map.unionWith f
    where
      f (Array v1) (Array v2) = Array $ v1 <> v2
